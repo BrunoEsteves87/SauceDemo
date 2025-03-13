@@ -15,8 +15,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci
-      - run: npm test
+      - run: npm install # Substitui npm ci para garantir a instalação correta das dependências
+      - run: npx playwright install # Instala os navegadores necessários para os testes
+      - run: npm test # Executa os testes configurados no package.json
 
   publish-gpr:
     needs: build
@@ -30,7 +31,8 @@ jobs:
         with:
           node-version: 20
           registry-url: https://npm.pkg.github.com/
-      - run: npm ci
+      - run: npm install # Substitui npm ci para consistência
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
